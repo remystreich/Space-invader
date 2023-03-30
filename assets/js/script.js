@@ -120,18 +120,18 @@ function moveFire(indexCanon) {
 ///////Fonction déplacements des ennemis
 let mobInterval // intervale pour le mouvements des ennemis
 let moveRight = false;
-mobInterval =setInterval(countDown , 2000)
+mobInterval =setInterval(countDown , 800)
+let index = 0;
 function moveMob() {
-    let index = 4;
     if (!moveRight && area[index][0] == 0) {
-        for (let i = 0; i < 10; i++) {
+        for (let i = index; i < index+5; i++) {
             let firstElement = area[i].shift();
             area[i].push(firstElement);
             console.log("left");
         }
     } else if (moveRight == true && area[index][14] == 0) {
         console.log("right34");
-        for (let i = 0; i < 10; i++) {
+        for (let i = index; i < index+5; i++) {
             area[i].unshift(0);
             area[i].splice(15, 1)
         }
@@ -148,16 +148,14 @@ function moveMob() {
         index++
         moveRight = false
     }
-    console.log(moveRight);
-
-
-
+    console.log(index);
 
 }
-let time = 20
+let time = 40
 function countDown() {
     time--
     moveMob()
+    refresh()
     if (time <= 0) {
         clearInterval(mobInterval)
         
