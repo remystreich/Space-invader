@@ -1,13 +1,36 @@
+@font-face {
+    font-family:pixel ;
+    src: url(../font/Pixels.ttf);
+}
 #game{
     width: 100%;
     height: 100%;
     background-color: black;
+   
+    
+}
+section{
+    width: 100%;
+    height: 95%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+#score {
+    height: 5%;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: start;
+    border-top: solid  rgb(10, 255, 10) 0.2px ;
     
 }
 body{
     background-color: black;
     width: 100%;
     height: 100%;
+    font-family: pixel;
 }
 html{
     width: 100%;
@@ -30,4 +53,38 @@ table{
 img{
    width: 65%;
    height: 65%;
+}
+h2{
+    color: white;
+    font-family: pixel;
+    font-size: 150px;
+}
+p{
+    color: rgb(10, 255, 10);
+    margin: 0;
+    font-family: pixel;
+    font-size: 40px;
+    
+    margin-right: 50px;
+}
+#loby{
+    color: white;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    
+}
+h1{
+    font-size: 200px;
+}
+button{
+    background-color: black;
+    color : white;
+    font-family: pixel;
+    font-size: 100px;
+    border: black;
+    cursor: pointer;
 }
