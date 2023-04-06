@@ -28,6 +28,45 @@ let indeyFire = "10";
 let kill = 5;
 let canShoot = true;
 
+//////Démmarrage du jeu
+let startGame = document.getElementById('startGame');
+function gameInit() {            //démarrer le jeu en cliquant sur le bouton startGame
+    document.getElementById("loby").style.display = 'none'; //masquer le loby
+    document.getElementById("gameSection").style.display = 'flex'; //afficher le jeu et score
+    document.getElementById("score").style.display = 'flex';
+    console.log("iebfibekzf");
+    let mobInterval // intervale pour le mouvements des ennemis
+    mobInterval = setInterval(countDown, 1300)// toutes les 800 ms déclenche countdown
+    function countDown() { // temps résuit de 1, appelle la fonction moveMob, réaffiche le nouveau tableau,  
+        moveMob();
+        refresh();
+        let endGame = false;
+        for (let j = 0; j < area[12].length; j++) {   //si un ennemi arrive en bas gameOver
+            if (area[12][j] == 2 || area[12][j] == 3) {
+                endGame = true;
+                clearInterval(mobInterval);
+            }
+        }
+        if (endGame) {
+            gameOver();
+        }
+        let checkWin = 0;
+        for (let i = 0; i < area.length; i++) {
+            for (let j = 0; j < area[i].length; j++) {
+                if (area[i][j] == 2 || area[i][j] == 3) {
+                    checkWin++
+                }
+            }
+        }
+        if (checkWin == 0) {
+            victory();
+            clearInterval(mobInterval);
+        }
+        checkWin = 0
+    }
+};
+
+
 ///////
 function refresh() {
     let game = document.getElementById("game");
@@ -143,21 +182,21 @@ function moveMob() {
         }
     } else if (moveRight == true && area[index][14] == 0) { //déplacement vers la droite
         for (let i = index; i < index + 5; i++) {
-            area[i].unshift(0);
-            area[i].splice(15, 1)
+            area[i].unshift(0);;
+            area[i].splice(15, 1);
         }
     }
     else if (!moveRight && area[index][0] != 0) { //descend d'une ligne quand les ennemis touchent le bord gauche
-        area.splice(index + 6, 1)
-        area.unshift([])
-        index++
-        moveRight = true
+        area.splice(index + 6, 1);
+        area.unshift([]);
+        index++;
+        moveRight = true;
     }
     else if (moveRight = true && area[index][14] != 0) { //descend d'une ligne quand les ennemis touchent le bord froit
-        area.splice(index + 6, 1)
-        area.unshift([])
-        index++
-        moveRight = false
+        area.splice(index + 6, 1);
+        area.unshift([]);
+        index++;
+        moveRight = false;
     }
 
 }
@@ -184,7 +223,7 @@ function gameOver() {
         message.innerHTML = "VOUS AVEZ  PERDU";
         finalScore.innerHTML = "Score : " + score;
         let divGameOver = document.createElement("div")
-        divGameOver.innerHTML = " <button id='startGame' >REJOUER</button>"
+        divGameOver.innerHTML = " <button onclick='gameInit()' >REJOUER</button>"
         body.appendChild(message);
         body.appendChild(finalScore);
         body.appendChild(divGameOver);
@@ -192,47 +231,6 @@ function gameOver() {
 
 }
 
-//////Démmarrage du jeu
-let startGame = document.getElementById('startGame');
-startGame.addEventListener('click', () => {            //démarrer le jeu en cliquant sur le bouton startGame
-    document.getElementById("loby").style.display = 'none'; //masquer le loby
-    document.getElementById("gameSection").style.display = 'flex'; //afficher le jeu et score
-    document.getElementById("score").style.display = 'flex';
-    console.log("iebfibekzf");
-    let mobInterval // intervale pour le mouvements des ennemis
-    mobInterval = setInterval(countDown, 1300)// toutes les 800 ms déclenche countdown
-    function countDown() { // temps résuit de 1, appelle la fonction moveMob, réaffiche le nouveau tableau,  
-        moveMob();
-        refresh();
-        let endGame = false;
-        for (let j = 0; j < area[12].length; j++) {   //si un ennemi arrive en bas gameOver
-            if (area[1][j] == 2 || area[12][j] == 3) {
-                endGame = true;
-                clearInterval(mobInterval);
-            }
-        }
-        if (endGame) {
-            gameOver();
-        }
-        let checkWin = 0;
-        for (let i = 0; i < area.length; i++) {
-            for (let j = 0; j < area[i].length; j++) {
-                if (area[i][j] == 2 || area[i][j] == 3) {
-                    checkWin++
-                }
-            }
-        }
-        if (checkWin == 0) {
-            victory();
-            clearInterval(mobInterval);
-        }
-       
-        checkWin = 0
-        
-        
-
-    }
-});
 
 /////Fonction victoire
 function victory() {
@@ -244,7 +242,7 @@ function victory() {
     let divGameOver = document.createElement("div")
     message.innerHTML = "VICTOIRE";
     finalScore.innerHTML = "Score : " + score;
-    divGameOver.innerHTML = " <button id='startGame' >REJOUER</button>"
+    divGameOver.innerHTML = " <button onclick='gameInit()' >REJOUER</button>"
     body.appendChild(message);
     body.appendChild(finalScore);
     body.appendChild(divGameOver);
