@@ -16,15 +16,14 @@ let area = [
 ]
 let score = 0;
 let idInterval // intervale pour le tir
-let test = ""
 /////////Variable canon
 let canon = 1;
-let indexCanon = 7
-let memoryCanon = indexCanon
-area[13][indexCanon] = canon
+let indexCanon = 7;
+let memoryCanon = indexCanon;
+area[13][indexCanon] = canon;
 ///////////////Variable Fire
 let fire = 4;
-let indeyFire = "10"
+let indeyFire = "10";
 ////////////////Variable explosion
 let kill = 5;
 let canShoot = true;
@@ -63,7 +62,7 @@ function refresh() {
 
     let scoreDiv = document.getElementById("score");
     scoreDiv.innerHTML = "";
-    let scoreP = document.createElement("p");
+    let scoreP = document.createElement("p"); //creation de la ligne de score
     scoreP.innerHTML = "score : " + score
     scoreDiv.appendChild(scoreP);
 
@@ -94,7 +93,7 @@ window.addEventListener('keyup', (event) => {
             memoryCanon = indexCanon
             idInterval = setInterval(() => {   /////permet d'afficher le missile frame par frame
                 moveFire()
-            }, 200);
+            }, 100);
         }
     }
 
@@ -162,11 +161,12 @@ function moveMob() {
     }
 
 }
-
+///////Fonction pour la défaite
 function gameOver() {
-    let gameDiv = document.getElementById('game');
+    console.log("hgeiyug");
+    let gameDiv = document.getElementById('game'); //fait clignoter l'affichage toutes les 500ms
     let visible = true;
-    let truc = setInterval(() => {
+    let flash = setInterval(() => {
         if (visible) {
             gameDiv.style.display = 'none';
         } else {
@@ -175,38 +175,80 @@ function gameOver() {
         visible = !visible;
     }, 500);
 
-    setTimeout(() => {
-        clearInterval(truc);
-        gameDiv.style.display = 'none';
+    setTimeout(() => {               //pendant 3Secondes
+        clearInterval(flash);        //stop le flash
+        gameDiv.style.display = 'none';  //masque le tableau 
         let body = document.querySelector("section");
-        let message = document.createElement("h2");
-        let finalScore = document.createElement("h2")
+        let message = document.createElement("h2");    //Affichage du tableau gameOver
+        let finalScore = document.createElement("h2");
         message.innerHTML = "VOUS AVEZ  PERDU";
-        finalScore.innerHTML = "Score : " + score
-        body.appendChild(message)
-        body.appendChild(finalScore)
-    }, 4000);
+        finalScore.innerHTML = "Score : " + score;
+        let divGameOver = document.createElement("div")
+        divGameOver.innerHTML = " <button id='startGame' >REJOUER</button>"
+        body.appendChild(message);
+        body.appendChild(finalScore);
+        body.appendChild(divGameOver);
+    }, 3000);
 
 }
 
+//////Démmarrage du jeu
 let startGame = document.getElementById('startGame');
-startGame.addEventListener('click', () => {
-    document.getElementById("loby").style.display='none'
-    document.getElementById("gameSection").style.display='flex'
-    document.getElementById("score").style.display='flex'
-
+startGame.addEventListener('click', () => {            //démarrer le jeu en cliquant sur le bouton startGame
+    document.getElementById("loby").style.display = 'none'; //masquer le loby
+    document.getElementById("gameSection").style.display = 'flex'; //afficher le jeu et score
+    document.getElementById("score").style.display = 'flex';
+    console.log("iebfibekzf");
     let mobInterval // intervale pour le mouvements des ennemis
     mobInterval = setInterval(countDown, 1300)// toutes les 800 ms déclenche countdown
     function countDown() { // temps résuit de 1, appelle la fonction moveMob, réaffiche le nouveau tableau,  
-        moveMob()
-        for (let j = 0; j < area[12].length; j++) {
-            if(area[12][j]== 2 || area[12][j]== 3){
-                gameOver()
-                clearInterval(mobInterval)
-            } 
+        moveMob();
+        refresh();
+        let endGame = false;
+        for (let j = 0; j < area[12].length; j++) {   //si un ennemi arrive en bas gameOver
+            if (area[1][j] == 2 || area[12][j] == 3) {
+                endGame = true;
+                clearInterval(mobInterval);
+            }
         }
-        refresh()
+        if (endGame) {
+            gameOver();
+        }
+        let checkWin = 0;
+        for (let i = 0; i < area.length; i++) {
+            for (let j = 0; j < area[i].length; j++) {
+                if (area[i][j] == 2 || area[i][j] == 3) {
+                    checkWin++
+                }
+            }
+        }
+        if (checkWin == 0) {
+            victory();
+            clearInterval(mobInterval);
+        }
+       
+        checkWin = 0
+        
+        
+
     }
 });
+
+/////Fonction victoire
+function victory() {
+    let gameDiv = document.getElementById('game');
+    gameDiv.style.display = 'none';  //masque le tableau 
+    let body = document.querySelector("section");
+    let message = document.createElement("h2");    //Affichage de la page victoire
+    let finalScore = document.createElement("h2");
+    let divGameOver = document.createElement("div")
+    message.innerHTML = "VICTOIRE";
+    finalScore.innerHTML = "Score : " + score;
+    divGameOver.innerHTML = " <button id='startGame' >REJOUER</button>"
+    body.appendChild(message);
+    body.appendChild(finalScore);
+    body.appendChild(divGameOver);
+
+}
 
 

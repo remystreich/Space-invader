@@ -77,14 +77,30 @@ p{
     justify-content: space-around;
     
 }
+#loby p{
+    font-size: 3vw;
+}
 h1{
-    font-size: 200px;
+    font-size: 14vw;
+    margin: 0;
 }
 button{
     background-color: black;
     color : white;
     font-family: pixel;
-    font-size: 100px;
+    font-size: 6vw;
     border: black;
     cursor: pointer;
 }
+button:hover{
+    animation: bounce 1s infinite;
+}
+@keyframes bounce{
+    0%{font-size: 6vw;}
+    50%{font-size: 7vw;}
+    100%{font-size: 6vw;}
+}
+#loby div{
+    height : 20%
+}
+
