@@ -54,7 +54,7 @@ function gameInit() {            //démarrer le jeu en cliquant sur le bouton st
         for (let i = 0; i < area.length; i++) {
             for (let j = 0; j < area[i].length; j++) {
                 if (area[i][j] == 2 || area[i][j] == 3) {
-                    checkWin++
+                    checkWin++;
                 }
             }
         }
@@ -146,10 +146,12 @@ function moveFire(indexCanon) {
     }
     area[indeyFire + 2][memoryCanon] = 0 //efface l'ancienne position du tir
     refresh()
-    if (area[indeyFire][memoryCanon] != 0) { //si le tir rencontre autre chose que du vide
-        score += 100;
-        area[indeyFire + 1][memoryCanon] = 0;   //efface le missile qui a touché
+    if (area[indeyFire][memoryCanon] == 3 || area[indeyFire][memoryCanon] == 2 || indeyFire == 0 ) { //si le tir rencontre autre chose que du vide
+        if (area[indeyFire][memoryCanon] == 3 || area[indeyFire][memoryCanon]==2){
+            score += 100;
+        }
         area[indeyFire][memoryCanon] = kill;    //remplace l'ennemi touché par explosion
+        area[indeyFire + 1][memoryCanon] = 0;   //efface le missile qui a touché
         setTimeout(() => {
             for (let i = 0; i < area.length; i++) {
                 for (let j = 0; j < area[i].length; j++) {  //remplace l'explosion par du vide au bout de 500 milisecondes
@@ -159,9 +161,20 @@ function moveFire(indexCanon) {
                 }
             }
             refresh()
-            indeyFire = "10"; //remet le départ du tir en bas
+           
         }, 500)
+        setTimeout(() => {
+            for (let i = 0; i < area.length; i++) {
+                for (let j = 0; j < area[i].length; j++) {  
+                    if (area[i][j] === 4) {
+                        area[i][j] = 0;
+                    }
+                }
+            }
+            refresh()
+        }, 5)
         clearInterval(idInterval);             //fin de la boucle interval
+        indeyFire = "10"; //remet le départ du tir en bas
         canShoot = true;                        // possibilité de retirer
     }
     //area[indeyFire][memoryCanon] = "0"   
@@ -169,7 +182,6 @@ function moveFire(indexCanon) {
 }
 
 ///////Déplacements des ennemis
-
 
 let moveRight = false;///permet de donner la direction de déplacement
 let index = 0; //ligne de réference
@@ -188,17 +200,17 @@ function moveMob() {
     }
     else if (!moveRight && area[index][0] != 0) { //descend d'une ligne quand les ennemis touchent le bord gauche
         area.splice(index + 6, 1);
-        area.unshift([]);
+        area.unshift([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
         index++;
         moveRight = true;
     }
     else if (moveRight = true && area[index][14] != 0) { //descend d'une ligne quand les ennemis touchent le bord froit
         area.splice(index + 6, 1);
-        area.unshift([]);
+        area.unshift([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
         index++;
         moveRight = false;
     }
-
+    console.log(area);
 }
 ///////Fonction pour la défaite
 function gameOver() {
@@ -223,7 +235,7 @@ function gameOver() {
         message.innerHTML = "VOUS AVEZ  PERDU";
         finalScore.innerHTML = "Score : " + score;
         let divGameOver = document.createElement("div")
-        divGameOver.innerHTML = " <button onclick='gameInit()' >REJOUER</button>"
+        divGameOver.innerHTML = " <button onclick='reload()' >REJOUER</button>"
         body.appendChild(message);
         body.appendChild(finalScore);
         body.appendChild(divGameOver);
@@ -242,11 +254,14 @@ function victory() {
     let divGameOver = document.createElement("div")
     message.innerHTML = "VICTOIRE";
     finalScore.innerHTML = "Score : " + score;
-    divGameOver.innerHTML = " <button onclick='gameInit()' >REJOUER</button>"
+    divGameOver.innerHTML = " <button onclick='reload()' >REJOUER</button>"
     body.appendChild(message);
     body.appendChild(finalScore);
     body.appendChild(divGameOver);
 
 }
 
+function reload(){
+    window.location.reload();
+}
 
